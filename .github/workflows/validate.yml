@@ -16,7 +16,7 @@ jobs:
     steps:
       # The submodule is a maintenance aid only — validation never touches it,
       # so skip it and keep CI fast.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           submodules: false
 
@@ -30,7 +30,7 @@ jobs:
     name: Markdown links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           submodules: false
 
