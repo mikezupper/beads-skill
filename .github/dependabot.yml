@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # Keep the CI actions current.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"
+
+  # Notify when upstream beads moves.
+  #
+  # Treat these PRs as a SIGNAL TO REVIEW, not something to merge blindly: a
+  # submodule bump on its own advances the pin without updating the skill or
+  # BEADS_VERSION.md, which is exactly the state CONTRIBUTING.md forbids. The
+  # intended workflow is to close the bot's PR and run:
+  #
+  #   ./scripts/update-beads.sh
+  #   git -C beads log --oneline <old>..HEAD -- docs/ plugins/
+  #
+  # then update the affected references and commit them together with the bump.
+  - package-ecosystem: gitsubmodule
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore"
+    labels:
+      - "upstream-drift"
