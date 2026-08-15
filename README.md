@@ -22,6 +22,7 @@
 [![Contributors](https://img.shields.io/github/contributors/mikezupper/beads-skill)](https://github.com/mikezupper/beads-skill/graphs/contributors)
 [![Repo size](https://img.shields.io/github/repo-size/mikezupper/beads-skill)](https://github.com/mikezupper/beads-skill)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](CONTRIBUTING.md)
+[![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant%202.1-5e0d73)](CODE_OF_CONDUCT.md)
 
 </div>
 
@@ -474,6 +475,18 @@ thing and `bd` does another. Include your `bd version` and the command output.
 ```bash
 ./scripts/validate.sh    # before opening a PR
 ```
+
+| Document | For |
+|---|---|
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to propose changes, verification rules, style |
+| [SUPPORT.md](SUPPORT.md) | Where to take a question — here vs. upstream beads |
+| [SECURITY.md](SECURITY.md) | Reporting a destructive script or a dangerous documented command |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1 |
+| [CHANGELOG.md](CHANGELOG.md) | What changed, and the `bd` version it was verified against |
+| [BEADS_VERSION.md](BEADS_VERSION.md) | The current upstream pin and known doc drift |
+
+Note that beads bugs belong [upstream](https://github.com/gastownhall/beads/issues),
+not here — this repo only documents the tool.
 
 ---
 

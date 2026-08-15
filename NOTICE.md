@@ -1,5 +1,10 @@
 # Notice and attribution
 
+`LICENSE` covers **this repository only** — the skill text, scripts, and
+supporting docs. It is deliberately kept as unmodified MIT text so automated
+license detection works; the attribution that would otherwise sit there lives
+in this file instead.
+
 ## Upstream project
 
 This repository contains an agent skill **about** beads. It does not contain,
