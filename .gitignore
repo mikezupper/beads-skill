@@ -1,0 +1,6 @@
+# The beads reference checkout is a git submodule; its contents are never
+# committed here. Ignore stray build/scratch artifacts only.
+*.tmp
+*.log
+.DS_Store
+scratch/

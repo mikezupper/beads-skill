@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Bug in beads itself
+    url: https://github.com/gastownhall/beads/issues
+    about: This repo only contains a skill ABOUT beads. Report bd bugs upstream.
+  - name: beads documentation
+    url: https://beads.gascity.com/
+    about: The official beads user documentation.
