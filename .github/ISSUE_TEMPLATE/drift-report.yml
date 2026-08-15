@@ -1,0 +1,60 @@
+name: Drift report
+description: The skill says one thing and `bd` does another
+title: "drift: "
+labels: ["drift"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Drift reports are the most valuable contribution
+        to this repo — the skill documents a moving target.
+
+        For bugs in **beads itself**, file upstream at
+        [gastownhall/beads](https://github.com/gastownhall/beads/issues).
+
+  - type: input
+    id: bd-version
+    attributes:
+      label: bd version
+      description: Output of `bd version`
+      placeholder: "bd version 1.2.2 (6c124203e: HEAD@6c124203e771)"
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Where in the skill
+      description: File and section, e.g. `references/04-cli-reference.md` § Creating and editing beads
+    validations:
+      required: true
+
+  - type: textarea
+    id: says
+    attributes:
+      label: What the skill says
+      description: Quote the text.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What bd actually does
+      description: |
+        Paste the command and its real output. Note that `bd help <unknown>`
+        exits 0 while printing "Unknown help topic" — to test whether a command
+        exists, use `bd foo --help 2>&1 | head -1` and look for
+        `Error: unknown command`.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Suggested wording, related sections, upstream doc links.
+    validations:
+      required: false

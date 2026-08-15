@@ -1,0 +1,58 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Structure and shell
+    runs-on: ubuntu-latest
+    steps:
+      # The submodule is a maintenance aid only — validation never touches it,
+      # so skip it and keep CI fast.
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Validate skill structure and scripts
+        run: ./scripts/validate.sh
+
+  links:
+    name: Markdown links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Check relative links resolve
+        run: |
+          set -uo pipefail
+          fail=0
+          # Every relative .md link in tracked markdown must point at a real
+          # file. `git ls-files` lists the submodule as a gitlink, not as its
+          # contents, so upstream's docs are never scanned.
+          while IFS= read -r file; do
+            dir="$(dirname "$file")"
+            targets="$(grep -oE '\]\([^)#:]+\.md(#[^)]*)?\)' "$file" || true)"
+            [ -z "$targets" ] && continue
+            while IFS= read -r raw; do
+              target="${raw#](}"; target="${target%)}"; target="${target%%#*}"
+              [ -z "$target" ] && continue
+              if [ ! -f "$dir/$target" ]; then
+                echo "::error file=$file::broken relative link -> $target"
+                fail=1
+              fi
+            done <<< "$targets"
+          done < <(git ls-files '*.md')
+          if [ "$fail" -ne 0 ]; then exit 1; fi
+          echo "All relative markdown links resolve."
