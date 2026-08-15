@@ -1,0 +1,26 @@
+# Every change needs owner review. The paths below are called out explicitly
+# because they are the ones where a malicious or careless PR does real damage.
+#
+# Ordering matters: the LAST matching pattern wins.
+
+* @mikezupper
+
+# CI runs on pull_request, so a PR can change what CI executes. The token is
+# read-only and the repo holds no secrets, but a workflow edit still deserves
+# a deliberate look.
+/.github/ @mikezupper
+
+# These run on a maintainer's machine, with their credentials, against their
+# filesystem.
+/scripts/ @mikezupper
+
+# Points at the upstream beads repository. Redirecting this URL would make
+# `update-beads.sh` fetch from somewhere else entirely.
+/.gitmodules @mikezupper
+
+# The highest-value target in this repo: agents EXECUTE what these files say.
+# A destructive `bd` invocation added here -- a stray `--force`, a `bd init
+# --reinit-local`, a `bd flatten` -- would be run against real issue databases
+# by anything that loads the skill. Review command examples as if they were
+# code, because they are.
+/skills/ @mikezupper
