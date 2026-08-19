@@ -28,9 +28,58 @@
 
 ---
 
+## What problem does Beads solve?
+
+Coding agents are effective within a session, but their working context is
+temporary. Sessions end, context gets compacted, processes crash, and multiple
+agents can unknowingly duplicate work. Plans stored in chat, Markdown
+checklists, or scattered TODOs quickly become incomplete or stale.
+
+[Beads](https://github.com/gastownhall/beads) gives agents a durable,
+dependency-aware work graph outside the context window. Each unit of work — a
+**bead** — can store its description, acceptance criteria, status,
+dependencies, notes, and history.
+
+That creates a repeatable execution loop:
+
+```text
+Find ready work → claim it → implement it → record discoveries → close it
+                                              ↓
+                                  newly unblocked work becomes ready
+```
+
+This improves agent-assisted development by making it possible to:
+
+- resume reliably after a new session or context compaction,
+- determine what can be worked on without re-planning the project,
+- coordinate multiple agents without duplicating work,
+- represent blockers and safe opportunities for parallel execution,
+- preserve discoveries, decisions, and handoff notes, and
+- maintain an auditable history of the project's execution state.
+
+Beads does not make an agent smarter or replace good engineering judgment. It
+provides persistent memory and coordination — the infrastructure agents need
+to work reliably on long-running projects. It is most useful when work spans
+multiple sessions, contains dependencies, or involves multiple agents; a
+small, one-session change may not need it.
+
+## Beads vs. this repository
+
+[Beads](https://github.com/gastownhall/beads) is the underlying task system: a
+Dolt-backed, dependency-aware issue tracker exposed through the `bd` CLI.
+
+**beads-skill** is the operating manual for agents using that system. It
+distills Beads' large command surface into a small set of rules, workflows,
+and progressively loaded references so agents can use it consistently and
+safely.
+
+---
+
 ## Contents
 
-- [Motivation](#motivation)
+- [What problem does Beads solve?](#what-problem-does-beads-solve)
+- [Beads vs. this repository](#beads-vs-this-repository)
+- [Why this skill exists](#why-this-skill-exists)
 - [What's inside](#whats-inside)
 - [Installation](#installation)
 - [Install order vs. `bd init`](#install-order-vs-bd-init)
@@ -45,18 +94,14 @@
 
 ---
 
-## Motivation
+## Why this skill exists
 
-Coding agents forget. Session ends, context compacts, a process crashes — and
-the plan goes with it. Markdown checklists rot, TODO comments scatter, and the
-next agent re-derives everything or does the wrong thing.
+Beads makes the work graph the memory: every unit of work is a bead with typed
+dependencies, and `bd ready` computes the claimable frontier so the *graph*
+decides what is workable next, not a human dispatcher or a half-remembered
+conversation.
 
-[Beads](https://github.com/gastownhall/beads) fixes that by making the work
-graph the memory: every unit of work is a bead with typed dependencies, and
-`bd ready` computes the claimable frontier so the *graph* decides what is
-workable next, not a human dispatcher or a half-remembered conversation.
-
-But beads has a **109-command CLI**, six storage/sync concepts, a workflow
+Beads also has a **109-command CLI**, six storage/sync concepts, a workflow
 engine (formulas → protos → molecules → wisps → gates), multi-repo routing,
 federation, and roughly **1 MB of documentation across 182 files**. An agent
 cannot hold that, and the guidance it needs most — *never run `bd edit`, get
