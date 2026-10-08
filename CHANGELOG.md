@@ -7,6 +7,16 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com).
 
 ## [Unreleased]
 
+**Verified against:** binary `bd 1.2.2`.
+
+### Fixed
+
+- Script examples that capture an ID now use `bd create … --silent` when the
+  bead needs a description or parent. `bd q` accepts only `-t`, `-p` and `-l`,
+  so the previous epic examples created beads without descriptions, against
+  rule 6. `SKILL.md`'s command table and anti-pattern table and reference 04
+  now state `bd q`'s flag limits and the `--silent` alternative.
+
 ## [0.1.0] — 2026-08-15
 
 Initial release.

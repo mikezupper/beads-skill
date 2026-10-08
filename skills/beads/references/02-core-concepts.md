@@ -179,7 +179,7 @@ Actively pruning closed beads keeps IDs short over time.
 (default 3 levels).
 
 ```bash
-EPIC=$(bd q "Auth System" -t epic -p 1)   # bd-a3f8e9
+EPIC=$(bd create "Auth System" -t epic -p 1 -d "…" --silent)   # bd-a3f8e9
 bd create "Design login UI"   -p 1 --parent "$EPIC"   # bd-a3f8e9.1
 bd create "Backend validation" -p 1 --parent "$EPIC"  # bd-a3f8e9.2
 bd children "$EPIC"                                    # includes closed

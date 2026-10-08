@@ -109,10 +109,11 @@ bd create "Add OAuth login" -t feature -p 1 \
 **Planning something big** — one epic, children, then real edges:
 
 ```bash
-EPIC=$(bd q "Auth system rewrite" -t epic -p 1)     # bd q prints only the ID
-bd create "Design token schema"  -p 1 --parent "$EPIC"   # → $EPIC.1
-bd create "Implement endpoints"  -p 1 --parent "$EPIC"   # → $EPIC.2
-bd create "Migrate existing users" -p 1 --parent "$EPIC" # → $EPIC.3
+EPIC=$(bd create "Auth system rewrite" -t epic -p 1 --silent \
+  --description="Replace session cookies with OAuth tokens across web + API.")
+bd create "Design token schema"    -p 1 --parent "$EPIC" -d "…"   # → $EPIC.1
+bd create "Implement endpoints"    -p 1 --parent "$EPIC" -d "…"   # → $EPIC.2
+bd create "Migrate existing users" -p 1 --parent "$EPIC" -d "…"   # → $EPIC.3
 
 bd dep add "$EPIC.2" "$EPIC.1"     # endpoints NEED the schema
 bd dep add "$EPIC.3" "$EPIC.2"     # migration NEEDS the endpoints
@@ -128,7 +129,7 @@ creates no ordering — only `bd dep add` does.
 
 ## Command surface you actually need
 
-`bd --help` lists 109 top-level commands on 1.2.2. These twenty cover ~95% of
+`bd --help` lists 109 top-level commands on 1.2.2. These cover ~95% of
 agent work.
 
 | Command | Use it for |
@@ -137,7 +138,8 @@ agent work.
 | `bd ready [--json] [--claim]` | The claimable frontier. Add `--explain` to see why. |
 | `bd blocked` | What is stuck, and on what. |
 | `bd create "<title>" -t <type> -p <n> -d "<desc>"` | New bead. |
-| `bd q "<title>"` | Quick capture; prints only the ID (script-friendly). |
+| `bd q "<title>"` | Quick capture; prints only the ID. Takes only `-t`, `-p`, `-l`. |
+| `bd create … --silent` | Prints only the ID **and** takes `-d`, `--parent`, `--deps`: use it to capture IDs in scripts. |
 | `bd show <id> [--json] [--long]` | Full bead: fields, deps, counts. |
 | `bd list --status open --json` | Filtered listing (50 rows by default). |
 | `bd search "<text>"` | Find by title/ID before creating a duplicate. |
@@ -218,6 +220,7 @@ the memory. Add `bd remember "…"` for facts that outlive a single bead
 | `dolt sql-server` / `dolt remote add` by hand | `bd dolt start` / `bd dolt remote add` |
 | Deleting `.dolt/noms/LOCK` to fix a lock | `bd dolt stop`, then `bd doctor` |
 | Creating a near-duplicate bead | `bd search "<title>"` first |
+| `bd q "…" -d "…"` or `bd q … --parent` (both rejected) | `ID=$(bd create "…" -d "…" --parent <id> --silent)` |
 | Closing an epic's last child and walking away | epics stay open: `bd epic close-eligible` |
 | `bd doctor --fix` on a hunch | back up `.beads/`, `bd doctor --dry-run`, then fix |
 | Marking work done with unclosed beads | run the close protocol from `bd prime` |

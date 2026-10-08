@@ -286,10 +286,10 @@ external_projects:
 both.
 
 ```bash
-EPIC=$(bd q "Payments v2" -t epic -p 1)
-A=$(bd q "Design schema"     -p 1); bd update "$A" --parent "$EPIC"
-B=$(bd q "Implement API"     -p 1); bd update "$B" --parent "$EPIC"
-C=$(bd q "Integration tests" -p 1); bd update "$C" --parent "$EPIC"
+EPIC=$(bd create "Payments v2" -t epic -p 1 -d "…" --silent)
+A=$(bd create "Design schema"     -p 1 --parent "$EPIC" -d "…" --silent)
+B=$(bd create "Implement API"     -p 1 --parent "$EPIC" -d "…" --silent)
+C=$(bd create "Integration tests" -p 1 --parent "$EPIC" -d "…" --silent)
 
 bd dep add "$B" "$A"
 bd dep add "$C" "$B"

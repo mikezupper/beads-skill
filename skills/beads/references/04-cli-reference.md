@@ -87,6 +87,20 @@ ID=$(bd q "Fix login bug")            # prints ONLY the id
 bd q "Task" -t bug -p 1 -l urgent
 ```
 
+`bd q` accepts only `-t/--type`, `-p/--priority` and `-l/--labels`. It rejects
+`-d/--description`, `--parent`, `--deps` and every other `bd create` flag
+(`Error: unknown shorthand flag: 'd' in -d`). A bead captured with `bd q` has
+no description, which breaks the "every bead gets a real description" rule
+unless you follow up with `bd update <id> --description=…`.
+
+To capture an ID **and** set a description or parent in one call, use
+`bd create --silent`:
+
+```bash
+EPIC=$(bd create "Payments v2" -t epic -p 1 -d "…" --silent)
+CHILD=$(bd create "Design schema" -p 1 --parent "$EPIC" -d "…" --silent)   # → $EPIC.1
+```
+
 ### `bd update`
 
 Accepts several IDs. With no ID, updates the **last touched** bead.
